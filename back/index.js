@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const PORT = 8000;
 
 app.use(express.json());
+app.use(cors());
 
 const students = [
   {
@@ -30,7 +32,7 @@ app.get("/students", (_req, res) => {
 });
 
 app.post("/students", (req, res) => {
-  //   console.log(req.body);
+  console.log(req.body);
   students.push({
     id: students.length + 1,
     name: req.body.name,
