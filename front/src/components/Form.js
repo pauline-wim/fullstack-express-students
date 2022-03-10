@@ -1,9 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useContext } from "react";
+// Context
+import { StudentsContext } from "../App";
 
 export default function Form() {
-  const [names, setNames] = useState([]);
+  const studentsContext = useContext(StudentsContext);
 
   const {
     register,
@@ -12,12 +14,25 @@ export default function Form() {
   } = useForm();
 
   const onSubmit = (data) => {
-    setNames((prev) => [...prev, data.userEntry]);
+    studentsContext.setNames((prev) => [
+      ...prev,
+      {
+        id: studentsContext.names.length + 1,
+        name: data.userEntry,
+      },
+    ]);
+    fetch("http://localhost:8000/students", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: data.userEntry }),
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {console.log(names)}
+      {/* {console.log(studentsContext.names)} */}
       <label>
         Name:
         <input type="text" {...register("userEntry", { required: true })} />
