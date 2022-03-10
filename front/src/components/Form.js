@@ -12,11 +12,12 @@ export default function Form() {
   } = useForm();
 
   const onSubmit = (data) => {
-    setNames(data.userEntry);
+    setNames((prev) => [...prev, data.userEntry]);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {console.log(names)}
       <label>
         Name:
         <input type="text" {...register("userEntry", { required: true })} />
