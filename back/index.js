@@ -34,17 +34,43 @@ app.get("/", (_req, res) => {
   res.send("Students");
 });
 
-app.get("/students", (_req, res) => {
-  res.json(students);
+app.get("/students", async (_req, res) => {
+  let students;
+  try {
+    students = await Postgres.query("SELECT * FROM students");
+  } catch (err) {
+    console.log(err);
+
+    return res.status(400).json({
+      message: "An error happened",
+    });
+  }
+
+  res.json(students.rows);
+  // res.json(students);
 });
 
-app.post("/students", (req, res) => {
-  console.log(req.body);
-  students.push({
-    id: students.length + 1,
-    name: req.body.name,
+app.post("/students", async (req, res) => {
+  try {
+    await Postgres.query("INSERT INTO students(name, city) VALUES($1, $2)", [
+      req.body.name,
+      req.body.city,
+    ]);
+  } catch (err) {
+    return res.status(400).json({
+      message: "ERROR: Bad data received",
+    });
+  }
+
+  res.json({
+    message: `Student ${req.body.name} added to the database`,
   });
-  res.send(students);
+  // console.log(req.body);
+  // students.push({
+  //   id: students.length + 1,
+  //   name: req.body.name,
+  // });
+  // res.send(students);
 });
 
 // ERROR
