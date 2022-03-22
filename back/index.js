@@ -1,25 +1,32 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const dotenv = require("dotenv");
+const { Pool } = require("pg");
+const app = express();
 const PORT = 8000;
+const Postgres = new Pool({ ssl: { rejectUnauthorized: false } });
+
+dotenv.config({
+  path: "./config.env",
+});
 
 app.use(express.json());
 app.use(cors());
 
-const students = [
-  {
-    id: 1,
-    name: "Paul",
-  },
-  {
-    id: 2,
-    name: "Bob",
-  },
-  {
-    id: 3,
-    name: "Michael",
-  },
-];
+// const students = [
+//   {
+//     id: 1,
+//     name: "Paul",
+//   },
+//   {
+//     id: 2,
+//     name: "Bob",
+//   },
+//   {
+//     id: 3,
+//     name: "Michael",
+//   },
+// ];
 
 // ROUTES
 
