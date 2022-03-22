@@ -14,11 +14,12 @@ export default function Form() {
   } = useForm();
 
   const onSubmit = (data) => {
-    studentsContext.setNames((prev) => [
+    studentsContext.setStudents((prev) => [
       ...prev,
       {
-        id: studentsContext.names.length + 1,
+        id: studentsContext.students.length + 1,
         name: data.userEntry,
+        city: data.cityEntry,
       },
     ]);
     fetch("http://localhost:8000/students", {
@@ -26,7 +27,7 @@ export default function Form() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: data.userEntry }),
+      body: JSON.stringify({ name: data.userEntry, city: data.cityEntry }),
     });
   };
 
@@ -36,6 +37,10 @@ export default function Form() {
       <label>
         Name:
         <input type="text" {...register("userEntry", { required: true })} />
+      </label>
+      <label>
+        City:
+        <input type="text" {...register("cityEntry", { required: true })} />
       </label>
       <input type="submit" value="Save" />
     </form>

@@ -10,8 +10,12 @@ export default function Form() {
     <div>
       <h1>Students List</h1>
       <ul>
-        {studentsContext.names.map((name, i) => {
-          return <li key={name.name + i}>{name.name}</li>;
+        {studentsContext.students.map((student, i) => {
+          return (
+            <li key={student.name + i}>
+              {student.name} ({student.city})
+            </li>
+          );
         })}
       </ul>
     </div>

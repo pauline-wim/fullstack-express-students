@@ -5,11 +5,11 @@ import { createContext, useState, useEffect } from "react";
 export const StudentsContext = createContext();
 
 function App() {
-  const [names, setNames] = useState([]);
+  const [students, setStudents] = useState([]);
 
   const studentsContext = {
-    names,
-    setNames,
+    students,
+    setStudents,
   };
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
       .then((res) => res.json(res))
       .then((res) => {
         // console.log(res);
-        setNames(res);
+        setStudents(res);
       });
   }, []);
 
